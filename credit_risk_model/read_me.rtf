@@ -1,0 +1,87 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2513
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww22880\viewh11780\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # general: \
+1. Dataset: https://www.kaggle.com/husainsb/lendingclub-issued-loans#\
+2.run scripts by index number\
+3. PSI is not necessary ran, use it when receiving new data that we want to see if distribution is different from old data\
+4. final_report.csv: final result after all scripts ( all rows with calculated Credit Score , PD, LGD, EAD, EL)  (recall: inside this dataset, load_status, recovery_rate, CCF are \'93trure value\'94)\
+5. function_utlility.ipynb: the functions and class I define for fitting the model and cleaning data\
+\
+\
+\
+####################\
+# in data folder: \
+\
+1. Preprocessed data (cleaned, dumminized, categorized, relabeled, dtype corrected)\
+# I store train test split data individually simply for ease, you still can get the exact same split with train, test index\
+# data after preprocessed\
+Location: data/data_processed.csv\
+\
+#train_set (with Y)\
+Location: data/train_set.csv\
+#test_set (with Y)\
+Location: data/test_set.csv\
+\
+#train_index (train row index in data_processed.csv)\
+Location: data/train_set.csv\
+#test_index (test row index in data_processed.csv)\
+Location: data/test_set.csv\
+\
+\
+\
+2. string lists for modeling use:\
+\
+#the feature names that are picked to select features to fit LGD, EAD model\
+#different from pd_feature.csv in some features in lgd_ead are \'91numeric\'92\
+#pseudo code: X_train_for_lgd = X_train[lgd_ead_feature].drop(reference_categories)\
+Location: data/lgd_ead_feature.csv\
+\
+#the feature names that are picked after preprocessing (with valuable WoE)\
+#used to select features to fit PD model\
+#pseudo code: X_train_for_pd = X_train[pd_feature].drop(reference_categories)\
+Location: data/pd_feature.csv\
+\
+\
+#inside the feature names list what are the reference (after consider WoE)\
+#pseudo code: X_train_for_pd = X_train[pd_feature].drop(reference_categories)\
+Location: data/reference_categories.csv\
+\
+#the mother columns that before categorized\
+#used to select calculate score card, PSI\
+#pseudo code: PSI = PSI_calculation.groupby(dummy_parent_name).sum()\
+Location: data/dummy_parent_name.csv\
+\
+#dependent variable names for fitting models\
+Location: data/dependent_name.csv\
+\
+\
+####################\
+# in model_result folder: \
+\
+#trained models using the train_set in data folder\
+Location: model_result/pd_model.sav # dependent: \'93not default\'94\
+Location: model_result/lgd_model_stage_1.sav # dependent: recoverable = 1\
+Location: model_result/lgd_model_stage_2.sav # dependent: recovery_rate\
+Location: model_result/ead_model.sav # dependent: CCF\
+\
+#after PD model, using the test data and its actual label, what is the approval rate and reject rate in different cutoff on PD\
+Location: model_result/cutoff_appr_rejc_test.csv\
+\
+# the final features used to train PD model, after some feature selection\
+Location: model_result/pd_reference_after_selected.csv\
+Location: model_result/pd_feature_after_selected.csv\
+\
+\
+# the score card (with features\'92 coefficients and P-values in PD model)\
+# to calculate credit score\
+Location: model_result/score_card\
+\
+# the test set with predicted PD and credit scores, for PD model evaluation use\
+Location: model_result/test_with_ref_scored\
+\
+}
